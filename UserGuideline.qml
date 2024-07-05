@@ -3,31 +3,21 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 
 Item {
-    required property double xBtn
-    required property double yBtn
-    required property double widthBtn
-    required property double heightBtn
-    required property string contentPopup
+    property double xBtn
+    property double yBtn
+    property double widthBtn
+    property double heightBtn
+    property string contentPopup
     property bool showcase
     signal overlayClick
 
     anchors.fill: parent
 
-    Popup {
-        id: popup
-        visible: opacityMask.visible
-
-        anchors.centerIn: parent
-
-        contentItem: Text {
-            text: contentPopup
-        }
-    }
-
     Item {
         id: mask
         visible: false
         anchors.fill: parent
+
         Item {
             id: buttonGeometry
             x: xBtn
@@ -77,13 +67,45 @@ Item {
             onClicked: mouse => {
                            mouse.accepted = false
                            overlayClick()
-                           showcase = false
                        }
         }
 
         Behavior on opacity {
             NumberAnimation {
                 easing.type: Easing.InOutCubic
+            }
+        }
+    }
+
+    Popup {
+        id: popup
+        visible: showcase
+
+        anchors.centerIn: parent
+
+        contentItem: Text {
+            text: contentPopup
+        }
+
+        Row {
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.top
+                bottomMargin: 10
+            }
+
+            Button {
+                text: "Next"
+                onClicked: {
+                    overlayClick()
+                }
+            }
+
+            Button {
+                text: "Skip"
+                onClicked: {
+                    showcase = false
+                }
             }
         }
     }

@@ -51,32 +51,61 @@ ApplicationWindow {
     }
 
     UserGuideline {
-        id: guideStep1
-        xBtn: button1.x
-        yBtn: button1.y
-        widthBtn: button1.width
-        heightBtn: button1.height
-        contentPopup: "Step 1"
-        showcase: true
-        onOverlayClick: guideStep2.showcase = true
-    }
+        id: userGuideline
 
-    UserGuideline {
-        id: guideStep2
-        xBtn: button2.x
-        yBtn: button2.y
-        widthBtn: button2.width
-        heightBtn: button2.height
-        contentPopup: "Step 2"
-        onOverlayClick: guideStep3.showcase = true
-    }
+        state: "Step1"
 
-    UserGuideline {
-        id: guideStep3
-        xBtn: button3.x
-        yBtn: button3.y
-        widthBtn: button3.width
-        heightBtn: button3.height
-        contentPopup: "Step 3vsfdvsdvsvsvsdf"
+        onOverlayClick: {
+            if (state === "Step1") {
+                state = "Step2"
+            } else if (state === "Step2") {
+                state = "Step3"
+            } else if (state === "Step3") {
+                showcase = false
+            }
+        }
+
+        states: [
+            State {
+                name: "Step1"
+                PropertyChanges {
+                    target: userGuideline
+                    xBtn: button1.x
+                    yBtn: button1.y
+                    widthBtn: button1.width
+                    heightBtn: button1.height
+                    contentPopup: "Step 1"
+                    showcase: true
+                }
+            },
+            State {
+                name: "Step2"
+                PropertyChanges {
+                    target: userGuideline
+                    xBtn: button2.x
+                    yBtn: button2.y
+                    widthBtn: button2.width
+                    heightBtn: button2.height
+                    contentPopup: "Step 2"
+                    showcase: true
+                }
+            },
+            State {
+                name: "Step3"
+                PropertyChanges {
+                    target: userGuideline
+                    xBtn: button3.x
+                    yBtn: button3.y
+                    widthBtn: button3.width
+                    heightBtn: button3.height
+                    contentPopup: "Step 3"
+                    showcase: true
+                }
+            }
+        ]
+
+        onStateChanged: {
+            showcase = false
+        }
     }
 }
